@@ -1,55 +1,42 @@
-// UI
-const display = document.querySelector('.display');
-const startbtn = document.querySelector('.start');
-const pausebtn = document.querySelector('.pause');
-const restartbtn = document.querySelector('.restart');
+const days=document.getElementById('days');
+const hours=document.getElementById('hours');
+const minutes=document.getElementById('minutes');
+const seconds=document.getElementById('seconds');
+const milliseconds=document.getElementById('milliseconds');
 
-let [milliseconds,seconds,minutes,hours]=[0,0,0,0];
-// console.log(milliseconds);
 
-let time;
+// console.log(newyeardate);
 
-startbtn.addEventListener('click', function(){
-    // console.log('Start Timer');
+function updatetime(){
+    const date=new Date();
+    const currentyear=new Date().getFullYear();
+    const newyeardate=new Date(`January 01 ${currentyear +1} 00:00:00`);
 
-    time=setInterval(displaytimer,1000);
-});
+    const diff=newyeardate-date;
+    // console.log(diff);
 
-pausebtn.addEventListener('click', function(){
-    // console.log('Stop Timer');
-    clearInterval(time);
-});
+    const day=Math.floor(diff/1000/60/60/24);
+    // console.log(day);
 
-restartbtn.addEventListener('click', function(){
-    // console.log('Restart Timer');
-    clearInterval(time);
-    [milliseconds, seconds, minutes, hours] = [0, 0, 0, 0];
-    display.textContent = "00 : 00 : 00 : 000";
-});
+    const hour=Math.floor(diff/1000/60/60)  % 24;
+    // console.log(hour);
+    
+    const minute=Math.floor(diff/1000/60) % 60;
+    // console.log(minute);
 
-function displaytimer(){
-    milliseconds +=10;
-    // console.log(milliseconds);
-    if(milliseconds === 100){
-        milliseconds=0;
-        seconds +=1;
-    }
+    const second=Math.floor(diff/1000) % 60;
+    // console.log(second);
 
-    if(seconds === 60){
-        seconds=0;
-       minutes +=1;
-    }
+    const millisecond=Math.floor(diff) % 100;
+    // console.log(millisecond);
 
-    if(minutes === 60){
-        minutes=0;
-        hours +=1;
-    }
-    // console.log(`${hours} : ${minutes} : ${seconds}`);
-    let h = hours < 10 ? '0' + hours : hours;
-    let m = minutes < 10 ? '0' + minutes : minutes;
-    let s = seconds < 10 ? '0' + seconds : seconds;
-    let ms = milliseconds < 10 ? '00' + milliseconds : milliseconds < 100 ? '0' + milliseconds : milliseconds;
-    // console.log(h,m,s,ms);
-    display.innerHTML= h + " : " + m + " : " + s + " : " + ms;
+    days.innerText=day;
+    hours.innerText=hour > 10 ? hour : "0" + hour;
+    minutes.innerText=minute >10 ? minute : "0" + minute;
+    seconds.innerText=second >10 ? second : "0" + second; 
+
 
 }
+setInterval(updatetime,1000);
+
+
